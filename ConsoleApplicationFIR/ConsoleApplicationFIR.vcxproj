@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{912202c4-7a1b-4b76-a8e5-a221194ad26a}</ProjectGuid>
+    <ProjectGuid>{d4ebc171-0aac-482b-a3ed-59e39de91dc4}</ProjectGuid>
     <RootNamespace>ConsoleApplicationFIR</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
