@@ -1,20 +1,94 @@
-﻿// ConsoleApplicationFIR.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
-
+﻿#include <stdio.h>
+#include <string>
 #include <iostream>
+#include <conio.h>
 
-int main()
-{
-    std::cout << "Hello World!\n";
+using namespace std;
+
+string slash = "/";
+string bslash = "\\";
+string vline = "|";
+string space = " ";
+string underline = "_";
+
+void EmptySlashLayer(int sizeX, int maxSizeX) {
+	string sp = "";
+	if (maxSizeX - sizeX > 0) for (int i = 0; i < maxSizeX / 2 - sizeX / 2; i++) sp += space;
+	sizeX = sizeX / 2 - 1;
+	string l;
+	l += slash;
+	for (int i = 0; i < sizeX; i++) l += space;
+	string r;
+	for (int i = 0; i < sizeX; i++) r += space;
+	r += bslash;
+	cout << sp + l + r + sp << endl;
 }
 
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
+void DownSlashLayer(int sizeX, int maxSizeX, int holeSize) {
+	holeSize /= 2;
+	string sp = "";
+	if (maxSizeX - sizeX > 0) for (int i = 0; i < maxSizeX / 2 - sizeX / 2; i++) sp += space;
+	sizeX = sizeX / 2 - 1;
+	string l;
+	l += slash;
+	for (int i = 0; i < sizeX; i++) l += i < sizeX - holeSize ? underline : space;
+	string r;
+	for (int i = 0; i < sizeX; i++) r += !(i < sizeX - (sizeX - holeSize)) ? underline : space;
+	r += bslash;
+	cout << sp + l + r + sp << endl;
+}
 
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
+void TriangleEmpty(int sizeX, int holeSizeUp, int holeSizeDown, int maxSizeX) {
+	for (int i = 2 + holeSizeUp; i < sizeX; i += 2) {
+		EmptySlashLayer(i, maxSizeX);
+	}
+	DownSlashLayer(sizeX, maxSizeX, holeSizeDown);
+}
+
+void EmptyVerticalLineLayer(int sizeX, int maxSizeX) {
+	string sp = "";
+	if (maxSizeX - sizeX > 0) for (int i = 0; i < maxSizeX / 2 - sizeX / 2; i++) sp += space;
+	sizeX = sizeX / 2 - 1;
+	string l;
+	l += vline;
+	for (int i = 0; i < sizeX; i++) l += space;
+	string r;
+	for (int i = 0; i < sizeX; i++) r += space;
+	r += vline;
+	cout << sp + l + r + sp << endl;
+}
+
+void DownVerticalLineLayer(int sizeX, int maxSizeX) {
+	string sp = "";
+	if (maxSizeX - sizeX > 0) for (int i = 0; i < maxSizeX / 2 - sizeX / 2; i++) sp += space;
+	sizeX = sizeX / 2 - 1;
+	string l;
+	l += vline;
+	for (int i = 0; i < sizeX; i++) l += underline;
+	string r;
+	for (int i = 0; i < sizeX; i++) r += underline;
+	r += vline;
+	cout << sp + l + r + sp << endl;
+}
+
+void RectangleUpExclude(int sizeX, int sizeY, int maxSizeX) {
+	for (int i = 0; i < sizeY - 1; i++) {
+		EmptyVerticalLineLayer(sizeX, maxSizeX);
+	}
+	DownVerticalLineLayer(sizeX, maxSizeX);
+}
+
+int main() {
+	int x;
+	printf("Enter the diameter of fir:\nx=");
+	cin >> x;
+	if (x < 2) printf("The dimentions are too small.\nP.S. Minimum size - 7");
+	for (int i = 2; i <= x - 2; i += 2)
+	{
+		if (i == 2)TriangleEmpty(2, 0, 0, x);
+		else TriangleEmpty(i, i / 1.4, i / 2, x);
+	}
+	TriangleEmpty(x, x / 1.4, 0, x);
+	RectangleUpExclude(x / 3.1, x / 7, x);
+	_getch();
+}
