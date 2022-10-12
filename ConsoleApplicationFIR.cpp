@@ -10,6 +10,7 @@ string bslash = "\\";
 string vline = "|";
 string space = " ";
 string underline = "_";
+string fir;
 
 void EmptySlashLayer(int sizeX, int maxSizeX) {
 	string sp = "";
@@ -21,7 +22,7 @@ void EmptySlashLayer(int sizeX, int maxSizeX) {
 	string r;
 	for (int i = 0; i < sizeX; i++) r += space;
 	r += bslash;
-	cout << sp + l + r + sp << endl;
+	fir += sp + l + r + sp + "\n";
 }
 
 void DownSlashLayer(int sizeX, int maxSizeX, int holeSize) {
@@ -35,7 +36,7 @@ void DownSlashLayer(int sizeX, int maxSizeX, int holeSize) {
 	string r;
 	for (int i = 0; i < sizeX; i++) r += !(i < sizeX - (sizeX - holeSize)) ? underline : space;
 	r += bslash;
-	cout << sp + l + r + sp << endl;
+	fir += sp + l + r + sp + "\n";
 }
 
 void TriangleEmpty(int sizeX, int holeSizeUp, int holeSizeDown, int maxSizeX) {
@@ -55,7 +56,7 @@ void EmptyVerticalLineLayer(int sizeX, int maxSizeX) {
 	string r;
 	for (int i = 0; i < sizeX; i++) r += space;
 	r += vline;
-	cout << sp + l + r + sp << endl;
+	fir += sp + l + r + sp + "\n";;
 }
 
 void DownVerticalLineLayer(int sizeX, int maxSizeX) {
@@ -68,7 +69,7 @@ void DownVerticalLineLayer(int sizeX, int maxSizeX) {
 	string r;
 	for (int i = 0; i < sizeX; i++) r += underline;
 	r += vline;
-	cout << sp + l + r + sp << endl;
+	fir += sp + l + r + sp + "\n";
 }
 
 void RectangleUpExclude(int sizeX, int sizeY, int maxSizeX) {
@@ -78,17 +79,23 @@ void RectangleUpExclude(int sizeX, int sizeY, int maxSizeX) {
 	DownVerticalLineLayer(sizeX, maxSizeX);
 }
 
+void PrintFir(int sizeX) {
+	fir = "";
+	if (sizeX < 2) printf("The dimentions are too small.\nP.S. Minimum size - 7");
+	for (int i = 2; i <= sizeX - 2; i += 2)
+	{
+		if (i == 2)TriangleEmpty(2, 0, 0, sizeX);
+		else TriangleEmpty(i, i / 1.4, i / 2, sizeX);
+	}
+	TriangleEmpty(sizeX, sizeX/ 1.4, 0, sizeX);
+	RectangleUpExclude(sizeX / 3.1, sizeX / 7, sizeX);
+	cout << fir;
+}
+
 int main() {
 	int x;
 	printf("Enter the diameter of fir:\nx=");
 	cin >> x;
-	if (x < 2) printf("The dimentions are too small.\nP.S. Minimum size - 7");
-	for (int i = 2; i <= x - 2; i += 2)
-	{
-		if (i == 2)TriangleEmpty(2, 0, 0, x);
-		else TriangleEmpty(i, i / 1.4, i / 2, x);
-	}
-	TriangleEmpty(x, x / 1.4, 0, x);
-	RectangleUpExclude(x / 3.1, x / 7, x);
+	PrintFir(x);
 	_getch();
 }
